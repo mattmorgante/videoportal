@@ -1,5 +1,6 @@
 class VideosController < ApplicationController
   before_action :set_video, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /videos
   # GET /videos.json
@@ -10,6 +11,13 @@ class VideosController < ApplicationController
   # GET /videos/1
   # GET /videos/1.json
   def show
+    @reviews = Review.where(video_id: @video.id).order("Created_at DESC")
+
+    if @reviews.blank? 
+      @avg_review = 0 
+    else 
+      @avg_review = @reviews.average(:rating).round(2)
+    end 
   end
 
   # GET /videos/new

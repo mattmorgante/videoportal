@@ -27,16 +27,14 @@ class ReviewsController < ApplicationController
   # POST /reviews.json
   def create
     @review = Review.new(review_params)
-    @review.user_id = current_user.user_id
+    @review.user_id = current_user.id
     @review.video_id = @video.id
 
-    respond_to do |format|
-      if @review.save
-        redirect_to @video
-      else
-        render 'new'
-      end
-    end
+    if @review.save
+      redirect_to @video
+    else
+      render 'new'
+    end 
   end
 
   # PATCH/PUT /reviews/1

@@ -17,16 +17,28 @@
   </div>
 
   <% if @reviews.blank? %> 
-    <%= link_to "Write the first review!", new_video_review_path(@video), class: "btn btn-primary" %>
+    <%= link_to "Write the first review!", new_place_review_path(@place), class: "btn btn-danger" %>
   <% else %> 
-    <% @reviews.each do |r| %> 
-      <div class="reviews">
-        <div class="star-rating" data-score= <%= r.rating %> ></div>
-        <p><%= r.comment %></p>
-      </div>
-    <% end %>
-  <% end %> 
+
+  <% @reviews.each do |r| %> 
+    <div class="reviews">
+      <div class="star-rating" data-score= <%= r.rating %> ></div>
+      <p><%= r.comment %></p>
+    </div>
+  <% end %>
 
 
 <%= link_to 'Edit', edit_video_path(@video) %> |
 <%= link_to 'Back', videos_path %>
+
+<script> 
+  $('.star-rating').raty({ 
+    path: '/assets/',
+    readOnly: true, 
+    score: function () { 
+      return $(this).attr('data-score');
+    }
+
+  });
+
+</script> 
